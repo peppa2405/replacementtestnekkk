@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placement Test B1-B2 - Tiếng Anh 2K12</title>
+    <!-- Nhúng Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#2563eb', secondary: '#1e40af', accent: '#f59e0b' }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-slate-200 py-3 px-4 sm:px-6 flex justify-between items-center gap-3 z-10 shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="bg-primary text-white p-2 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-lg font-bold text-slate-900 leading-tight">Placement Test B1-B2</h1>
+                <p class="text-xs text-slate-500 font-medium">Đánh giá trình độ tiếng Anh (2K12)</p>
+            </div>
+        </div>
+        
+        <!-- Timer -->
+        <div id="timerContainer" class="hidden items-center gap-2 bg-slate-100 px-4 py-1.5 rounded-full border border-slate-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span id="timerDisplay" class="font-mono text-lg font-bold text-slate-700 tracking-wider">120:00</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-h-0 flex flex-col relative w-full max-w-7xl mx-auto px-3 py-3 sm:px-6">
+        
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 max-w-2xl mx-auto mt-4 text-center fade-in overflow-y-auto">
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Đánh Giá Năng Lực Tiếng Anh</h2>
+            <p class="text-slate-600 text-sm mb-6">Bài kiểm tra gồm 100 câu từ vựng, ngữ pháp, điền từ và đọc hiểu ở mức B1-B2, cùng một bài luận ngắn.</p>
+            
+            <div class="text-left bg-slate-50 p-5 rounded-xl mb-6 border border-slate-100 text-sm space-y-2 text-slate-600">
+                <p>⏱ <strong>Thời gian:</strong> 120 phút (tự động nộp khi hết giờ).</p>
+                <p>📝 <strong>Cấu trúc:</strong> 6 phần (Lexico-Grammar, Word Formation, Open Cloze, Transformation, Reading Comprehension, Essay).</p>
+                <p>💾 <strong>Lưu ý:</strong> Bài làm được lưu trên trình duyệt để em có thể tiếp tục nếu thoát trang.</p>
+            </div>
+            
+            <div class="max-w-md mx-auto space-y-3">
+                <input type="text" id="studentName" placeholder="Họ và tên học sinh *" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary outline-none">
+                <input type="text" id="studentPhone" placeholder="Số điện thoại / Zalo phụ huynh *" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary outline-none">
+                <input type="text" id="targetSchool" placeholder="Mục tiêu thi trường chuyên nào? (VD: CSP, CNN, Ams...)" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-primary outline-none">
+                
+                <button onclick="startTest()" class="w-full bg-primary hover:bg-secondary text-white font-bold py-3 px-6 rounded-lg shadow-md transition-colors mt-2">
+                    Bắt đầu làm bài &rarr;
+                </button>
+            </div>
+        </div>
+
+        <!-- Test Container -->
+        <div id="testContainer" class="hidden flex-col flex-1 min-h-0 fade-in">
+            <div id="sectionTabs" class="mb-3 shrink-0"></div>
+
+            <!-- Content Area -->
+            <div id="testContent" class="flex-1 min-h-0 p-3 sm:p-6 overflow-y-auto relative"></div>
+
+            <!-- Navigation Buttons -->
+            <div class="bg-white border-t border-slate-200 p-3 mt-3 rounded-xl shadow-sm flex flex-wrap gap-2 justify-between items-center shrink-0">
+                <button id="prevBtn" onclick="navigatePart(-1)" class="flex-1 sm:flex-none px-4 sm:px-5 py-2 rounded-lg font-medium text-slate-600 hover:bg-slate-100 disabled:opacity-40">
+                    &larr; Phần trước
+                </button>
+                <button id="nextBtn" onclick="navigatePart(1)" class="flex-1 sm:flex-none px-4 sm:px-5 py-2 rounded-lg font-medium bg-slate-100 text-slate-800 hover:bg-slate-200">
+                    Phần tiếp theo &rarr;
+                </button>
+                <button id="submitBtn" onclick="confirmAndSubmit()" class="hidden flex-1 sm:flex-none px-6 py-2 rounded-lg font-bold bg-green-600 hover:bg-green-700 text-white shadow-md">
+                    Hoàn thành & Nộp bài
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-8 max-w-2xl mx-auto mt-6 text-center fade-in">
+            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-1">Nộp Bài Thành Công!</h2>
+            <p class="text-slate-600 text-sm mb-6" id="resultGreeting"></p>
+            
+            <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl max-w-xs mx-auto mb-6">
+                <p class="text-xs text-blue-600 font-semibold uppercase tracking-wider mb-1">Điểm tự động chấm (Part 1 - 5)</p>
+                <p class="text-3xl font-extrabold text-blue-700" id="finalScore">0/0</p>
+            </div>
+            
+            <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 text-left text-sm text-slate-600">
+                <p class="font-bold text-slate-800 mb-1">📌 Bước tiếp theo:</p>
+                <p>Bài luận Essay (Part 6) đã được chuyển trực tiếp tới giáo viên để thẩm định chi tiết theo các tiêu chí học thuật. Bản nhận xét năng lực tổng thể kèm lộ trình ôn thi chuyên cá nhân hóa sẽ được gửi về Zalo/SĐT phụ huynh trong vòng 24 giờ tới.</p>
+            </div>
+            <button type="button" onclick="startNewAttempt()" class="mt-6 px-5 py-2.5 rounded-lg font-bold bg-primary hover:bg-secondary text-white transition-colors">Bắt đầu lượt thi mới</button>
+        </div>
+
+    </main>
+
+    <script>
+        // CẤU HÌNH FORMSPREE: Thay link Formspree của bạn vào đây
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/mkjgqkrd";
+        const ATTEMPT_STORAGE_KEY = "chuyenAnh_attempt_b1b2";
+        const TEST_DURATION_SECONDS = 120 * 60;
+
+        const testData = [
+            // ==========================================
+            // PART 1: LEXICO - GRAMMAR (20 Câu)
+            // ==========================================
+            { id: 1, part: "Part 1", type: "multiple-choice", question: "My sister _________ to school by bus every morning.", options: ["go", "goes", "going", "gone"], correctAnswer: "goes", points: 1 },
+            { id: 2, part: "Part 1", type: "multiple-choice", question: "We _________ a film at home last night.", options: ["watch", "watched", "watches", "watching"], correctAnswer: "watched", points: 1 },
+            { id: 3, part: "Part 1", type: "multiple-choice", question: "There _________ some milk in the fridge.", options: ["is", "are", "be", "were"], correctAnswer: "is", points: 1 },
+            { id: 4, part: "Part 1", type: "multiple-choice", question: "Could you _________ me with this bag, please?", options: ["help", "helps", "helped", "helping"], correctAnswer: "help", points: 1 },
+            { id: 5, part: "Part 1", type: "multiple-choice", question: "I _________ dinner when my friend called.", options: ["have", "was having", "am having", "will have"], correctAnswer: "was having", points: 1 },
+            { id: 6, part: "Part 1", type: "multiple-choice", question: "Anna is very good _________ drawing.", options: ["at", "in", "on", "for"], correctAnswer: "at", points: 1 },
+            { id: 7, part: "Part 1", type: "multiple-choice", question: "They have lived in this town _________ 2020.", options: ["for", "since", "from", "during"], correctAnswer: "since", points: 1 },
+            { id: 8, part: "Part 1", type: "multiple-choice", question: "If it rains tomorrow, we _________ at home.", options: ["stay", "will stay", "stayed", "staying"], correctAnswer: "will stay", points: 1 },
+            { id: 9, part: "Part 1", type: "multiple-choice", question: "How _________ water do you drink each day?", options: ["many", "much", "few", "several"], correctAnswer: "much", points: 1 },
+            { id: 10, part: "Part 1", type: "multiple-choice", question: "This exercise is _________ than the last one.", options: ["easy", "easier", "easiest", "more easy"], correctAnswer: "easier", points: 1 },
+            { id: 11, part: "Part 1", type: "multiple-choice", question: "It is raining. Take _________ umbrella with you.", options: ["a", "an", "the", "no article"], correctAnswer: "an", points: 1 },
+            { id: 12, part: "Part 1", type: "multiple-choice", question: "My brother enjoys _________ comic books.", options: ["read", "reads", "reading", "to reading"], correctAnswer: "reading", points: 1 },
+            { id: 13, part: "Part 1", type: "multiple-choice", question: "Would you like _________ tea?", options: ["some", "many", "a few", "few"], correctAnswer: "some", points: 1 },
+            { id: 14, part: "Part 1", type: "multiple-choice", question: "We stayed inside _________ it was very cold.", options: ["because", "although", "but", "so that"], correctAnswer: "because", points: 1 },
+            { id: 15, part: "Part 1", type: "multiple-choice", question: "I usually _________ the bus to school.", options: ["take", "do", "make", "get"], correctAnswer: "take", points: 1 },
+            { id: 16, part: "Part 1", type: "multiple-choice", question: "The bank opens _________ 9 o'clock.", options: ["in", "on", "at", "by"], correctAnswer: "at", points: 1 },
+            { id: 17, part: "Part 1", type: "multiple-choice", question: "She _________ her homework already.", options: ["has finished", "finish", "finishing", "have finish"], correctAnswer: "has finished", points: 1 },
+            { id: 18, part: "Part 1", type: "multiple-choice", question: "We arrived _________ London in the evening.", options: ["at", "in", "on", "to"], correctAnswer: "in", points: 1 },
+            { id: 19, part: "Part 1", type: "multiple-choice", question: "Please speak _________; I can't hear you.", options: ["loud", "loudly", "louder", "loudest"], correctAnswer: "louder", points: 1 },
+            { id: 20, part: "Part 1", type: "multiple-choice", question: "Don't forget _________ the door before you leave.", options: ["lock", "locking", "to lock", "locked"], correctAnswer: "to lock", points: 1 },
+
+            // ==========================================
+            // PART 2: WORD FORMATION (20 Câu)
+            // ==========================================
+            { id: 21, part: "Part 2", type: "fill-blank", question: "Everyone likes her because she is very _________. (KIND)", correctAnswers: ["kind"], points: 2 },
+            { id: 22, part: "Part 2", type: "fill-blank", question: "Please drive _________ when it is raining. (CARE)", correctAnswers: ["carefully"], points: 2 },
+            { id: 23, part: "Part 2", type: "fill-blank", question: "This guide is very _________ for new students. (HELP)", correctAnswers: ["helpful"], points: 2 },
+            { id: 24, part: "Part 2", type: "fill-blank", question: "My sister is a good _________. She sings in a band. (SING)", correctAnswers: ["singer"], points: 2 },
+            { id: 25, part: "Part 2", type: "fill-blank", question: "He felt _________ before speaking in front of the class. (NERVE)", correctAnswers: ["nervous"], points: 2 },
+            { id: 26, part: "Part 2", type: "fill-blank", question: "She answered every question _________. (CORRECT)", correctAnswers: ["correctly"], points: 2 },
+            { id: 27, part: "Part 2", type: "fill-blank", question: "We had a _________ holiday by the sea. (WONDER)", correctAnswers: ["wonderful"], points: 2 },
+            { id: 28, part: "Part 2", type: "fill-blank", question: "The room is large and _________ for six people. (SPACE)", correctAnswers: ["spacious"], points: 2 },
+            { id: 29, part: "Part 2", type: "fill-blank", question: "She has a lot of _________ with children. (EXPERIENCE)", correctAnswers: ["experience"], points: 2 },
+            { id: 30, part: "Part 2", type: "fill-blank", question: "Be _________ with the glass; it can break. (CARE)", correctAnswers: ["careful"], points: 2 },
+            { id: 31, part: "Part 2", type: "fill-blank", question: "Her _________ made us wait for twenty minutes. (ARRIVE)", correctAnswers: ["arrival"], points: 2 },
+            { id: 32, part: "Part 2", type: "fill-blank", question: "My parents are _________ of my hard work. (PRIDE)", correctAnswers: ["proud"], points: 2 },
+            { id: 33, part: "Part 2", type: "fill-blank", question: "It is _________ to cross the road without looking. (DANGER)", correctAnswers: ["dangerous"], points: 2 },
+            { id: 34, part: "Part 2", type: "fill-blank", question: "This suitcase is too _________ for me to carry. (HEAVY)", correctAnswers: ["heavy"], points: 2 },
+            { id: 35, part: "Part 2", type: "fill-blank", question: "Her dream is to become a _________. (SCIENCE)", correctAnswers: ["scientist"], points: 2 },
+            { id: 36, part: "Part 2", type: "fill-blank", question: "He speaks English _________. (FLUENT)", correctAnswers: ["fluently"], points: 2 },
+            { id: 37, part: "Part 2", type: "fill-blank", question: "The story was so _________ that I read it twice. (INTEREST)", correctAnswers: ["interesting"], points: 2 },
+            { id: 38, part: "Part 2", type: "fill-blank", question: "Please _________ the window before you leave. (CLOSE)", correctAnswers: ["close"], points: 2 },
+            { id: 39, part: "Part 2", type: "fill-blank", question: "We celebrated their _________ in the competition. (SUCCEED)", correctAnswers: ["success"], points: 2 },
+            { id: 40, part: "Part 2", type: "fill-blank", question: "The internet is a _________ tool for learning. (USE)", correctAnswers: ["useful"], points: 2 },
+
+            // ==========================================
+            // PART 3: OPEN CLOZE TEST (20 Câu)
+            // ==========================================
+            { id: 41, part: "Part 3", type: "fill-blank", question: "She goes _________ school by bike every day.", correctAnswers: ["to"], points: 2 },
+            { id: 42, part: "Part 3", type: "fill-blank", question: "I haven't seen Peter _________ Monday.", correctAnswers: ["since"], points: 2 },
+            { id: 43, part: "Part 3", type: "fill-blank", question: "We have lived here _________ five years.", correctAnswers: ["for"], points: 2 },
+            { id: 44, part: "Part 3", type: "fill-blank", question: "You can borrow my pen, but please give it _________ later.", correctAnswers: ["back"], points: 2 },
+            { id: 45, part: "Part 3", type: "fill-blank", question: "Anna is interested _________ learning English.", correctAnswers: ["in"], points: 2 },
+            { id: 46, part: "Part 3", type: "fill-blank", question: "I went to bed early _________ I was tired.", correctAnswers: ["because"], points: 2 },
+            { id: 47, part: "Part 3", type: "fill-blank", question: "_________ it was cold, we went for a walk.", correctAnswers: ["although", "though"], points: 2 },
+            { id: 48, part: "Part 3", type: "fill-blank", question: "If you _________ hard, you will pass the test.", correctAnswers: ["study"], points: 2 },
+            { id: 49, part: "Part 3", type: "fill-blank", question: "Please turn _________ the lights before you leave.", correctAnswers: ["off"], points: 2 },
+            { id: 50, part: "Part 3", type: "fill-blank", question: "There aren't _________ apples left in the bowl.", correctAnswers: ["many"], points: 2 },
+            { id: 51, part: "Part 3", type: "fill-blank", question: "My brother is two years older _________ me.", correctAnswers: ["than"], points: 2 },
+            { id: 52, part: "Part 3", type: "fill-blank", question: "We walked _________ the station together.", correctAnswers: ["to"], points: 2 },
+            { id: 53, part: "Part 3", type: "fill-blank", question: "I have never _________ to Japan.", correctAnswers: ["been"], points: 2 },
+            { id: 54, part: "Part 3", type: "fill-blank", question: "The children are playing _________ the garden.", correctAnswers: ["in"], points: 2 },
+            { id: 55, part: "Part 3", type: "fill-blank", question: "I prefer tea _________ coffee.", correctAnswers: ["to"], points: 2 },
+            { id: 56, part: "Part 3", type: "fill-blank", question: "We are looking forward _________ our holiday.", correctAnswers: ["to"], points: 2 },
+            { id: 57, part: "Part 3", type: "fill-blank", question: "My little brother is afraid _________ dogs.", correctAnswers: ["of"], points: 2 },
+            { id: 58, part: "Part 3", type: "fill-blank", question: "We got _________ the bus at the next stop.", correctAnswers: ["off"], points: 2 },
+            { id: 59, part: "Part 3", type: "fill-blank", question: "The film starts _________ seven o'clock.", correctAnswers: ["at"], points: 2 },
+            { id: 60, part: "Part 3", type: "fill-blank", question: "She was tired, _________ she finished her homework.", correctAnswers: ["but"], points: 2 },
+
+            // ==========================================
+            // PART 4: SENTENCE TRANSFORMATION (20 Câu)
+            // ==========================================
+            { id: 61, part: "Part 4", type: "fill-blank", question: "The box is too heavy for me to lift. (LIGHT)\n-> The box isn't ___________________ for me to lift.", correctAnswers: ["light enough"], points: 3 },
+            { id: 62, part: "Part 4", type: "fill-blank", question: "I started living here in 2020. (SINCE)\n-> I have lived here ___________________.", correctAnswers: ["since 2020"], points: 3 },
+            { id: 63, part: "Part 4", type: "fill-blank", question: "People speak English in many countries. (SPOKEN)\n-> English ___________________ in many countries.", correctAnswers: ["is spoken"], points: 3 },
+            { id: 64, part: "Part 4", type: "fill-blank", question: "This is the most interesting book I have read. (MORE)\n-> I have never read a ___________________ book.", correctAnswers: ["more interesting"], points: 3 },
+            { id: 65, part: "Part 4", type: "fill-blank", question: "She said, 'I am tired.' (WAS)\n-> She said that she ___________________.", correctAnswers: ["was tired"], points: 3 },
+            { id: 66, part: "Part 4", type: "fill-blank", question: "The last time I saw him was Monday. (SINCE)\n-> I haven't seen him ___________________.", correctAnswers: ["since Monday"], points: 3 },
+            { id: 67, part: "Part 4", type: "fill-blank", question: "I like tea more than coffee. (PREFER)\n-> I ___________________ coffee.", correctAnswers: ["prefer tea to"], points: 3 },
+            { id: 68, part: "Part 4", type: "fill-blank", question: "He is too young to drive a car. (ENOUGH)\n-> He isn't ___________________ to drive a car.", correctAnswers: ["old enough"], points: 3 },
+            { id: 69, part: "Part 4", type: "fill-blank", question: "Although it was raining, we played football. (BUT)\n-> It was raining, ___________________ we played football.", correctAnswers: ["but"], points: 3 },
+            { id: 70, part: "Part 4", type: "fill-blank", question: "No one in the class is taller than Minh. (TALLEST)\n-> Minh is ___________________ in the class.", correctAnswers: ["the tallest"], points: 3 },
+            { id: 71, part: "Part 4", type: "fill-blank", question: "They built this school in 2000. (WAS)\n-> This school ___________________ in 2000.", correctAnswers: ["was built"], points: 3 },
+            { id: 72, part: "Part 4", type: "fill-blank", question: "Put on a coat or you will get cold. (IF)\n-> ___________________, you will get cold.", correctAnswers: ["if you don't put on a coat"], points: 3 },
+            { id: 73, part: "Part 4", type: "fill-blank", question: "The bag belongs to Tom. (TOM'S)\n-> It is ___________________.", correctAnswers: ["tom's bag"], points: 3 },
+            { id: 74, part: "Part 4", type: "fill-blank", question: "This puzzle is easier than that one. (AS)\n-> That puzzle isn't ___________________ this one.", correctAnswers: ["as easy as"], points: 3 },
+            { id: 75, part: "Part 4", type: "fill-blank", question: "The film started at 8 and finished at 10. (FOR)\n-> The film lasted ___________________.", correctAnswers: ["for two hours"], points: 3 },
+            { id: 76, part: "Part 4", type: "fill-blank", question: "She can swim very well. (GOOD)\n-> She is ___________________ swimming.", correctAnswers: ["good at"], points: 3 },
+            { id: 77, part: "Part 4", type: "fill-blank", question: "I last visited Hue in 2022. (SINCE)\n-> I haven't visited Hue ___________________.", correctAnswers: ["since 2022"], points: 3 },
+            { id: 78, part: "Part 4", type: "fill-blank", question: "The room is too small for all of us. (LARGE)\n-> The room isn't ___________________ for all of us.", correctAnswers: ["large enough"], points: 3 },
+            { id: 79, part: "Part 4", type: "fill-blank", question: "I walked to school because I didn't have a bike. (SO)\n-> I didn't have a bike, ___________________ to school.", correctAnswers: ["so i walked"], points: 3 },
+            { id: 80, part: "Part 4", type: "fill-blank", question: "There are 30 students in our class. (HAS)\n-> Our class ___________________.", correctAnswers: ["has 30 students"], points: 3 },
+
+            // ==========================================
+            // PART 5: READING COMPREHENSION (20 Câu: Passage 1 & Passage 2)
+            // ==========================================
+            // Passage 1: Guided Cloze (Câu 81 - 90)
+            { id: 81, part: "Part 5", passageId: 1, type: "multiple-choice", question: "They use smartphones (81) _________ talk to friends.", options: ["to", "for", "at", "by"], correctAnswer: "to", points: 1 },
+            { id: 82, part: "Part 5", passageId: 1, type: "multiple-choice", question: "Using a phone can make it hard (82) _________ focus.", options: ["to", "of", "at", "for"], correctAnswer: "to", points: 1 },
+            { id: 83, part: "Part 5", passageId: 1, type: "multiple-choice", question: "Some students check messages (83) _________ doing homework.", options: ["while", "because", "until", "unless"], correctAnswer: "while", points: 1 },
+            { id: 84, part: "Part 5", passageId: 1, type: "multiple-choice", question: "They need (84) _________ time to finish.", options: ["more", "many", "few", "any"], correctAnswer: "more", points: 1 },
+            { id: 85, part: "Part 5", passageId: 1, type: "multiple-choice", question: "Teachers suggest putting phones (85) _________ for a short time.", options: ["away", "up", "over", "through"], correctAnswer: "away", points: 1 },
+            { id: 86, part: "Part 5", passageId: 1, type: "multiple-choice", question: "This habit can help students (86) _________.", options: ["focus", "focused", "focusing", "focuses"], correctAnswer: "focus", points: 1 },
+            { id: 87, part: "Part 5", passageId: 1, type: "multiple-choice", question: "Students can remember more (87) _________ what they learn.", options: ["of", "at", "by", "with"], correctAnswer: "of", points: 1 },
+            { id: 88, part: "Part 5", passageId: 1, type: "multiple-choice", question: "It is important to take short (88) _________.", options: ["breaks", "lessons", "questions", "roads"], correctAnswer: "breaks", points: 1 },
+            { id: 89, part: "Part 5", passageId: 1, type: "multiple-choice", question: "A walk can help the mind feel (89) _________.", options: ["fresh", "late", "loud", "careful"], correctAnswer: "fresh", points: 1 },
+            { id: 90, part: "Part 5", passageId: 1, type: "multiple-choice", question: "Students should follow their plan (90) _________.", options: ["every day", "last year", "at once", "yesterday"], correctAnswer: "every day", points: 1 },
+
+            // Passage 2: Reading Comprehension (Câu 91 - 100)
+            { id: 91, part: "Part 5", passageId: 2, type: "multiple-choice", question: "What is the passage mainly about?", options: ["A school garden project", "A new sports club", "A school trip", "A cooking competition"], correctAnswer: "A school garden project", points: 1 },
+            { id: 92, part: "Part 5", passageId: 2, type: "multiple-choice", question: "Where is the garden?", options: ["Behind the library", "Next to the gym", "In the town park", "Beside the school gate"], correctAnswer: "Behind the library", points: 1 },
+            { id: 93, part: "Part 5", passageId: 2, type: "multiple-choice", question: "Who showed students how plants grow?", options: ["Their science teacher", "The school cook", "A parent", "The librarian"], correctAnswer: "Their science teacher", points: 1 },
+            { id: 94, part: "Part 5", passageId: 2, type: "multiple-choice", question: "What did some students make for the garden?", options: ["Signs", "A new fence", "A library", "A greenhouse"], correctAnswer: "Signs", points: 1 },
+            { id: 95, part: "Part 5", passageId: 2, type: "multiple-choice", question: "What did students make from fallen leaves?", options: ["Compost", "Paper", "Food", "Garden tools"], correctAnswer: "Compost", points: 1 },
+            { id: 96, part: "Part 5", passageId: 2, type: "multiple-choice", question: "Where did the students share some vegetables?", options: ["With the school kitchen", "At a local market", "With another school", "At home"], correctAnswer: "With the school kitchen", points: 1 },
+            { id: 97, part: "Part 5", passageId: 2, type: "multiple-choice", question: "What did students learn to do through the project?", options: ["Work together", "Build computers", "Write stories", "Play an instrument"], correctAnswer: "Work together", points: 1 },
+            { id: 98, part: "Part 5", passageId: 2, type: "multiple-choice", question: "What does the school plan to do next year?", options: ["Make the garden bigger", "Close the garden", "Move the library", "Buy more computers"], correctAnswer: "Make the garden bigger", points: 1 },
+            { id: 99, part: "Part 5", passageId: 2, type: "multiple-choice", question: "In the passage, 'look after' means _________.", options: ["take care of", "look at", "look for", "write about"], correctAnswer: "take care of", points: 1 },
+            { id: 100, part: "Part 5", passageId: 2, type: "multiple-choice", question: "Which is the best title for the passage?", options: ["A Garden at School", "A Difficult Science Exam", "A Day at the Market", "The School Library"], correctAnswer: "A Garden at School", points: 1 },
+
+            // ==========================================
+            // PART 6: ESSAY WRITING
+            // ==========================================
+            {
+                id: 101,
+                part: "Part 6",
+                type: "essay",
+                question: "Topic: 'Some students prefer to study alone, while others enjoy studying with friends.'\n\nWhich way do you prefer and why? Write 150-200 words. Give at least two reasons and one example.",
+                points: 20
+            }
+        ];
+
+        // Dữ liệu 2 bài đọc cho Part 5
+        const readingPassages = {
+            1: {
+                title: "Passage 1: Using Phones Wisely",
+                text: `Many students use smartphones every day. They use them <strong>(81) [to]</strong> talk to friends, find information and relax. However, using a phone for a long time can make it hard <strong>(82) [to]</strong> focus. Some students check messages <strong>(83) [while]</strong> doing homework, so they need <strong>(84) [more]</strong> time to finish. Teachers suggest putting phones <strong>(85) [away]</strong> for 30 minutes. This simple habit can help students <strong>(86) [focus]</strong> and remember more <strong>(87) [of]</strong> what they learn. It is also important to take short <strong>(88) [breaks]</strong>. A ten-minute walk can help the mind feel <strong>(89) [fresh]</strong>. Students should choose a simple plan and follow it <strong>(90) [every day]</strong>.`
+            },
+            2: {
+                title: "Passage 2: A Garden at School",
+                text: `Last year, our school started a small garden behind the library. At first, only a few students joined the project. They cleaned the area, planted tomatoes and beans, and watered the plants after class. Their science teacher showed them how plants grow and why good soil is important.<br><br>After a few weeks, more students became interested. Some made signs for the garden, while others collected fallen leaves to make compost. The garden soon gave the school fresh vegetables. The students shared them with the school kitchen and used some in a cooking lesson.<br><br>The project has helped students learn to work together. They also spend more time outside and understand how much care plants need. The school plans to make the garden bigger next year. It hopes that every class will help look after one part of it.`
+            }
+        };
+
+        const partNames = ["Part 1", "Part 2", "Part 3", "Part 4", "Part 5", "Part 6"];
+        const partTitles = {
+            "Part 1": "Part 1: Grammar and Everyday Vocabulary (20 questions)",
+            "Part 2": "Part 2: Word Formation (20 questions)",
+            "Part 3": "Part 3: Common Words and Prepositions (20 questions)",
+            "Part 4": "Part 4: Useful Sentence Patterns (20 questions)",
+            "Part 5": "Part 5: Reading Comprehension (2 passages)",
+            "Part 6": "Part 6: Short Essay (150-200 words)"
+        };
+
+        let currentPartIndex = 0;
+        let currentPassageId = 1;
+        let userAnswers = {};
+        let timerInterval;
+        let timeRemaining = TEST_DURATION_SECONDS;
+        let deadlineAt = 0;
+        let lastSavedAt = 0;
+        let attemptStatus = "not-started";
+        let isSubmitting = false;
+
+        function startTest() {
+            const name = document.getElementById('studentName').value.trim();
+            const phone = document.getElementById('studentPhone').value.trim();
+            if (!name || !phone) {
+                alert('Vui lòng điền đầy đủ họ tên và số điện thoại trước khi bắt đầu!');
+                return;
+            }
+
+            loadDraft();
+            currentPartIndex = 0;
+            currentPassageId = 1;
+            deadlineAt = Date.now() + TEST_DURATION_SECONDS * 1000;
+            attemptStatus = "in-progress";
+            isSubmitting = false;
+            showTestInterface();
+            renderTabs();
+            renderCurrentPart();
+            persistAttempt();
+            startTimer();
+        }
+
+        function showTestInterface() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('hidden');
+            document.getElementById('testContainer').classList.add('flex');
+            document.getElementById('timerContainer').classList.remove('hidden');
+            document.getElementById('timerContainer').classList.add('flex');
+        }
+
+        function startTimer() {
+            const timerDisplay = document.getElementById('timerDisplay');
+            clearInterval(timerInterval);
+            const updateTimer = () => {
+                timeRemaining = Math.max(0, Math.ceil((deadlineAt - Date.now()) / 1000));
+                const mins = Math.floor(timeRemaining / 60);
+                const secs = timeRemaining % 60;
+                timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                if (timeRemaining <= 300) {
+                    timerDisplay.classList.add('text-red-600');
+                }
+
+                if (Date.now() - lastSavedAt >= 5000 && attemptStatus === "in-progress") {
+                    persistAttempt();
+                    lastSavedAt = Date.now();
+                }
+
+                if (timeRemaining <= 0 && attemptStatus === "in-progress") {
+                    clearInterval(timerInterval);
+                    alert("Đã hết thời gian làm bài! Hệ thống tự động nộp bài.");
+                    submitTestToEmail();
+                }
+            };
+            updateTimer();
+            if (timeRemaining > 0) timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function renderTabs() {
+            const tabsContainer = document.getElementById('sectionTabs');
+            tabsContainer.innerHTML = `
+                <div class="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:gap-4">
+                    <label for="partSelect" class="shrink-0 text-sm font-bold text-slate-700">Phần thi</label>
+                    <select id="partSelect" onchange="goToPart(Number(this.value))" class="w-full min-w-0 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-primary sm:flex-1">
+                        ${partNames.map((part, idx) => `<option value="${idx}" ${idx === currentPartIndex ? 'selected' : ''}>${partTitles[part]}</option>`).join('')}
+                    </select>
+                    <span class="shrink-0 text-xs font-semibold text-slate-500">${currentPartIndex + 1} / ${partNames.length}</span>
+                </div>
+            `;
+        }
+
+        function goToPart(idx) {
+            currentPartIndex = Math.max(0, Math.min(partNames.length - 1, Number(idx) || 0));
+            renderTabs();
+            renderCurrentPart();
+            persistAttempt();
+        }
+
+        function navigatePart(step) {
+            goToPart(currentPartIndex + step);
+        }
+
+        function setReadingPassage(passageId) {
+            currentPassageId = Number(passageId) === 2 ? 2 : 1;
+            renderCurrentPart();
+            persistAttempt();
+        }
+
+        function renderCurrentPart() {
+            const currentPart = partNames[currentPartIndex];
+            const questions = testData.filter(q => q.part === currentPart);
+            const content = document.getElementById('testContent');
+
+            let html = `<h2 class="text-xl font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">${partTitles[currentPart]}</h2>`;
+
+            // RENDER PART 5: READING COMPREHENSION (Layout 2 cột song song)
+            if (currentPart === "Part 5") {
+                const passage = readingPassages[currentPassageId];
+                const passageQuestions = questions.filter(q => q.passageId === currentPassageId);
+
+                html += `
+                    <div class="mb-4 max-w-xl">
+                        <label for="readingPassageSelect" class="mb-1 block text-sm font-bold text-slate-700">Chọn bài đọc</label>
+                        <select id="readingPassageSelect" onchange="setReadingPassage(this.value)" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 outline-none focus:ring-2 focus:ring-primary">
+                            ${Object.entries(readingPassages).map(([id, item]) => `<option value="${id}" ${Number(id) === currentPassageId ? 'selected' : ''}>${item.title}</option>`).join('')}
+                        </select>
+                    </div>
+                    <article class="mb-6 rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+                        <h3 class="mb-3 text-base font-bold text-slate-900">${passage.title}</h3>
+                        <div class="break-words text-sm leading-7 text-slate-800">${passage.text}</div>
+                    </article>
+                    <div class="space-y-4">${renderQuestionList(passageQuestions)}</div>
+                `;
+            } 
+            // RENDER PART 6: ESSAY WRITING
+            else if (currentPart === "Part 6") {
+                const essayQ = questions[0];
+                const savedEssay = userAnswers[essayQ.id] || "";
+                html += `
+                    <div class="bg-blue-50 border-l-4 border-primary p-4 rounded-r-lg mb-4 text-slate-800 whitespace-pre-line text-sm font-medium">
+                        ${essayQ.question}
+                    </div>
+                    <div class="relative flex flex-col h-[52vh]">
+                        <textarea id="essayInput" class="flex-1 w-full p-4 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary outline-none resize-none text-slate-800 text-sm leading-relaxed" placeholder="Write your essay here...">${savedEssay}</textarea>
+                        <div class="mt-2 flex justify-between text-xs text-slate-500">
+                            <span id="saveStatus">Tự động lưu nháp</span>
+                            <span class="font-bold text-primary"><span id="wordCount">0</span> words</span>
+                        </div>
+                    </div>
+                `;
+            } 
+            // RENDER CÁC PHẦN PART 1, 2, 3, 4
+            else {
+                html += `<div class="space-y-6">${renderQuestionList(questions)}</div>`;
+            }
+
+            content.innerHTML = html;
+            content.scrollTop = 0;
+
+            document.getElementById('prevBtn').disabled = (currentPartIndex === 0);
+            if (currentPartIndex === partNames.length - 1) {
+                document.getElementById('nextBtn').classList.add('hidden');
+                document.getElementById('submitBtn').classList.remove('hidden');
+                attachEssayEvents();
+            } else {
+                document.getElementById('nextBtn').classList.remove('hidden');
+                document.getElementById('submitBtn').classList.add('hidden');
+            }
+        }
+
+        function renderQuestionList(questions) {
+            return questions.map(q => {
+                if (q.type === "multiple-choice") {
+                    return `
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                            <p class="font-semibold text-slate-800 mb-2.5 text-sm">${q.id}. ${q.question}</p>
+                            <div class="space-y-1.5">
+                                ${q.options.map((opt, idx) => `
+                                    <label class="flex items-start p-2 rounded-lg border border-slate-100 hover:border-primary cursor-pointer text-xs sm:text-sm transition-colors ${userAnswers[q.id] === opt ? 'border-primary bg-blue-50/70 ring-1 ring-primary' : 'bg-slate-50'}">
+                                        <input type="radio" name="q_${q.id}" value="${opt}" class="mt-0.5 w-3.5 h-3.5 text-primary" ${userAnswers[q.id] === opt ? 'checked' : ''} onchange="saveAnswer(${q.id}, '${opt}')">
+                                        <span class="ml-2.5 text-slate-700">${String.fromCharCode(65 + idx)}.${opt}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (q.type === "fill-blank") {
+                    const val = userAnswers[q.id] || "";
+                    return `
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <p class="font-semibold text-slate-800 mb-2 text-sm whitespace-pre-line">${q.id}. ${q.question}</p>
+                            <input type="text" class="w-full sm:w-80 px-3 py-1.5 text-sm rounded border border-slate-300 focus:border-primary outline-none" placeholder="Nhập đáp án của em..." value="${val}" oninput="saveAnswer(${q.id}, this.value)">
+                        </div>
+                    `;
+                }
+            }).join('');
+        }
+
+        function attachEssayEvents() {
+            const textarea = document.getElementById('essayInput');
+            if (!textarea) return;
+
+            updateWordCount(textarea.value);
+
+            textarea.addEventListener('input', (e) => {
+                const text = e.target.value;
+                updateWordCount(text);
+                saveAnswer(101, text);
+
+                clearTimeout(textarea.saveTimer);
+                textarea.saveTimer = setTimeout(() => {
+                    const status = document.getElementById('saveStatus');
+                    if (status) status.textContent = `Đã lưu lúc ${new Date().toLocaleTimeString()}`;
+                }, 1000);
+            });
+        }
+
+        function updateWordCount(str) {
+            const count = str.trim() ? str.trim().split(/\s+/).length : 0;
+            const el = document.getElementById('wordCount');
+            if (el) el.textContent = count;
+        }
+
+        function saveAnswer(id, val) {
+            userAnswers[id] = val;
+            persistAttempt();
+        }
+
+        function loadDraft() {
+            const savedAttempt = localStorage.getItem(ATTEMPT_STORAGE_KEY);
+            if (savedAttempt) {
+                try {
+                    const attempt = JSON.parse(savedAttempt);
+                    if (attempt.answers && typeof attempt.answers === "object") userAnswers = attempt.answers;
+                    return;
+                } catch (e) {
+                    localStorage.removeItem(ATTEMPT_STORAGE_KEY);
+                }
+            }
+        }
+
+        function persistAttempt(status = attemptStatus, result = null) {
+            const attempt = {
+                version: 1,
+                status,
+                student: {
+                    name: document.getElementById('studentName').value.trim(),
+                    phone: document.getElementById('studentPhone').value.trim(),
+                    targetSchool: document.getElementById('targetSchool').value.trim()
+                },
+                answers: userAnswers,
+                currentPartIndex,
+                currentPassageId,
+                deadlineAt,
+                updatedAt: Date.now()
+            };
+            if (result) attempt.result = result;
+            localStorage.setItem(ATTEMPT_STORAGE_KEY, JSON.stringify(attempt));
+        }
+
+        function restoreAttempt() {
+            const saved = localStorage.getItem(ATTEMPT_STORAGE_KEY);
+            if (!saved) return;
+
+            let attempt;
+            try {
+                attempt = JSON.parse(saved);
+            } catch (e) {
+                localStorage.removeItem(ATTEMPT_STORAGE_KEY);
+                return;
+            }
+
+            if (attempt.student) {
+                document.getElementById('studentName').value = attempt.student.name || '';
+                document.getElementById('studentPhone').value = attempt.student.phone || '';
+                document.getElementById('targetSchool').value = attempt.student.targetSchool || '';
+            }
+            userAnswers = attempt.answers && typeof attempt.answers === 'object' ? attempt.answers : {};
+
+            if (attempt.status === "completed" && attempt.result) {
+                attemptStatus = "completed";
+                showResultScreen(attempt.student?.name || "Học sinh", attempt.result.score, attempt.result.total);
+                return;
+            }
+            if (attempt.status !== "in-progress") return;
+
+            attemptStatus = "in-progress";
+            currentPartIndex = Math.max(0, Math.min(partNames.length - 1, Number(attempt.currentPartIndex) || 0));
+            currentPassageId = Number(attempt.currentPassageId) === 2 ? 2 : 1;
+            deadlineAt = Number(attempt.deadlineAt) || Date.now() + TEST_DURATION_SECONDS * 1000;
+            showTestInterface();
+            renderTabs();
+            renderCurrentPart();
+            startTimer();
+        }
+
+        function startNewAttempt() {
+            clearInterval(timerInterval);
+            localStorage.removeItem(ATTEMPT_STORAGE_KEY);
+            userAnswers = {};
+            currentPartIndex = 0;
+            currentPassageId = 1;
+            deadlineAt = 0;
+            timeRemaining = TEST_DURATION_SECONDS;
+            attemptStatus = "not-started";
+            isSubmitting = false;
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentPhone').value = '';
+            document.getElementById('targetSchool').value = '';
+            document.getElementById('resultsScreen').classList.add('hidden');
+            document.getElementById('testContainer').classList.add('hidden');
+            document.getElementById('timerContainer').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+        }
+
+        function confirmAndSubmit() {
+            if (confirm("Em đã kiểm tra kỹ toàn bộ bài làm và sẵn sàng nộp bài?")) {
+                submitTestToEmail();
+            }
+        }
+
+        async function submitTestToEmail() {
+            if (isSubmitting || attemptStatus !== "in-progress") return;
+            isSubmitting = true;
+            clearInterval(timerInterval);
+
+            const studentName = document.getElementById("studentName")?.value || "Chưa nhập tên";
+            const studentPhone = document.getElementById("studentPhone")?.value || "Chưa nhập SĐT";
+            const targetSchool = document.getElementById("targetSchool")?.value || "Không rõ";
+            const essayText = userAnswers[101] || "Học sinh không làm bài luận";
+
+            let autoScore = 0;
+            let totalAutoPoints = 0;
+            let wrongSummary = [];
+
+            // Tự động chấm Part 1 -> Part 5 (Câu 1 đến 100)
+            testData.forEach(item => {
+                if (item.type !== "essay") {
+                    totalAutoPoints += item.points;
+                    const ans = (userAnswers[item.id] || "").trim().toLowerCase();
+                    let isCorrect = false;
+
+                    if (item.type === "multiple-choice") {
+                        isCorrect = (ans === item.correctAnswer.toLowerCase());
+                    } else if (item.correctAnswers) {
+                        isCorrect = item.correctAnswers.some(a => a.toLowerCase() === ans);
+                    }
+
+                    if (isCorrect) {
+                        autoScore += item.points;
+                    } else {
+                        wrongSummary.push(`[${item.part}] Câu ${item.id}: Điền "${userAnswers[item.id] || 'Bỏ trống'}"`);
+                    }
+                }
+            });
+
+            const payload = {
+                _subject: `[BÀI TEST CHUYÊN ANH] - ${studentName} (${autoScore}/${totalAutoPoints}đ)`,
+                "Họ và tên": studentName,
+                "Số điện thoại": studentPhone,
+                "Mục tiêu thi chuyên": targetSchool,
+                "Điểm tự chấm (Part 1-5)": `${autoScore}/${totalAutoPoints} điểm`,
+                "Bài luận Essay (Part 6)": essayText,
+                "Chi tiết câu làm sai": wrongSummary.slice(0, 25).join("\n")
+            };
+
+            const submitBtn = document.getElementById("submitBtn");
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = "Đang nộp bài...";
+            }
+
+            try {
+                const response = await fetch(FORMSPREE_ENDPOINT, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    showResultScreen(studentName, autoScore, totalAutoPoints);
+                } else {
+                    alert("Kết quả trắc nghiệm và đọc hiểu đã được lưu lại trên màn hình!");
+                    showResultScreen(studentName, autoScore, totalAutoPoints);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Lỗi kết nối! Vui lòng chụp lại màn hình điểm số hiển thị tiếp theo.");
+                showResultScreen(studentName, autoScore, totalAutoPoints);
+            }
+        }
+
+        function showResultScreen(name, score, total) {
+            clearInterval(timerInterval);
+            attemptStatus = "completed";
+            isSubmitting = false;
+            persistAttempt("completed", { score, total });
+            document.getElementById('testContainer').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('flex');
+            document.getElementById('timerContainer').classList.add('hidden');
+
+            document.getElementById('resultsScreen').classList.remove('hidden');
+            document.getElementById('resultGreeting').innerHTML = `Chúc mừng em <strong>${name}</strong> đã hoàn thành bài kiểm tra.`;
+            document.getElementById('finalScore').textContent = `${score}/${total}`;
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (attemptStatus === "in-progress") persistAttempt();
+        });
+
+        restoreAttempt();
+    </script>
+</body>
+</html>
